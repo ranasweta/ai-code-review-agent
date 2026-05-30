@@ -1,0 +1,18 @@
+# Streamlit configuration (Day 7 — deployment).
+# Theme colors give the deployed app a consistent, professional look that
+# matches the in-app severity badges (red / amber / blue).
+
+[theme]
+primaryColor = "#2f6fd1"            # accent (buttons, focus) — same blue as .info badge
+backgroundColor = "#ffffff"         # main background
+secondaryBackgroundColor = "#f4f6fa" # sidebar / cards
+textColor = "#1f2430"
+font = "sans-serif"            # hyphenated CSS generic family (Streamlit 1.58+)
+
+[server]
+# Don't try to open a browser on a headless server.
+headless = true
+
+[browser]
+# Don't collect usage stats from the deployed instance.
+gatherUsageStats = false

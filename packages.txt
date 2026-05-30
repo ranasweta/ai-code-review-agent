@@ -1,0 +1,7 @@
+# System (apt) packages for Streamlit Cloud.
+# Lines starting with '#' and blank lines are ignored by the installer.
+#
+# This project is pure-Python (pylint + ast + requests), so NO system packages
+# are required. The file is kept (empty of real entries) so the deploy config is
+# explicit and there's an obvious place to add an apt package if one is ever
+# needed (e.g. `graphviz` for diagram rendering).

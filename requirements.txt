@@ -1,0 +1,19 @@
+# ---------------------------------------------------------------------------
+# AI Code Review Agent — Python dependencies
+# ---------------------------------------------------------------------------
+# Pinned to EXACT versions (Day 7) for reproducible cloud deployment: the same
+# versions we developed and tested against are the ones that get installed.
+#
+# We pin DIRECT dependencies only, not a full `pip freeze`. A full freeze taken
+# on Windows would include platform-specific packages (e.g. pywin32) that fail
+# to install on Streamlit Cloud's Linux builders. Pinning the direct deps keeps
+# the install reproducible AND cross-platform.
+# ---------------------------------------------------------------------------
+
+streamlit==1.58.0            # Web UI (Day 5) — turns the pipeline into a clickable app
+python-dotenv==1.2.2         # Loads secrets from a local .env file into os.environ
+pydantic==2.13.4             # Typed, validated output schemas (Day 3)
+requests==2.34.2             # HTTP client for the GitHub REST API (Day 2)
+google-generativeai==0.8.6   # Google Gemini SDK — our default LLM provider
+groq==1.4.0                  # Groq SDK (Llama 3) — our backup LLM provider
+pylint==4.0.5                # Static analysis tool the agent runs on the code (Day 2)

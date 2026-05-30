@@ -1,0 +1,20 @@
+# Keep the build context (and image) small and secret-free.
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Never bake secrets into an image.
+.env
+.streamlit/secrets.toml
+
+# Dev / VCS cruft not needed at runtime.
+.git/
+.gitignore
+.idea/
+.vscode/
+.DS_Store
+tests/
+*.md
+!README.md

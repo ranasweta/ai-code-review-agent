@@ -1,0 +1,96 @@
+{
+  "pr_summary": "Adds a user-lookup endpoint and an order-summary view. The feature works, but the lookup builds SQL via string concatenation (a critical injection risk) and the summary issues a query per order. Address the security issue before merging.",
+  "pr_intent": "Add a user-lookup endpoint and an order-summary view.",
+  "overall_verdict": "request_changes",
+  "metrics": {
+    "code_quality": 7,
+    "security": 4,
+    "performance": 6,
+    "maintainability": 8,
+    "overall": 5.95
+  },
+  "file_reviews": [
+    {
+      "filename": "app/db.py",
+      "language": "Python",
+      "findings": [
+        {
+          "file": "app/db.py",
+          "line": 42,
+          "severity": "critical",
+          "category": "security",
+          "title": "Possible SQL injection",
+          "description": "User-supplied `user_id` is concatenated directly into a SQL query string. An attacker can inject arbitrary SQL (e.g. `1 OR 1=1`) and read or modify other users' data.",
+          "suggestion": "Use a parameterized query instead of string concatenation.",
+          "fix_diff": "- cursor.execute(\"SELECT * FROM users WHERE id=\" + user_id)\n+ cursor.execute(\"SELECT * FROM users WHERE id=%s\", (user_id,))",
+          "confidence": "high"
+        }
+      ],
+      "summary": "1 finding(s), 1 critical."
+    },
+    {
+      "filename": "app/services.py",
+      "language": "Python",
+      "findings": [
+        {
+          "file": "app/services.py",
+          "line": 88,
+          "severity": "warning",
+          "category": "performance",
+          "title": "N+1 query inside loop",
+          "description": "A database query runs once per iteration over `orders`, turning one page load into N+1 round trips.",
+          "suggestion": "Fetch the related rows in a single query before the loop (e.g. a join or an `IN (...)` batch).",
+          "fix_diff": null,
+          "confidence": "medium"
+        },
+        {
+          "file": "app/services.py",
+          "line": 12,
+          "severity": "warning",
+          "category": "code_quality",
+          "title": "Bare except swallows errors",
+          "description": "`except:` hides every error, including KeyboardInterrupt, and makes failures invisible.",
+          "suggestion": "Catch the specific exception you expect and log it.",
+          "fix_diff": null,
+          "confidence": "high"
+        }
+      ],
+      "summary": "2 finding(s)."
+    },
+    {
+      "filename": "app/utils.py",
+      "language": "Python",
+      "findings": [
+        {
+          "file": "app/utils.py",
+          "line": 5,
+          "severity": "info",
+          "category": "maintainability",
+          "title": "Missing function docstring",
+          "description": "`compute_total` has no docstring explaining its contract.",
+          "suggestion": "Add a one-line docstring describing inputs and return value.",
+          "fix_diff": null,
+          "confidence": "medium"
+        }
+      ],
+      "summary": "1 finding(s)."
+    }
+  ],
+  "review_timestamp": "2026-01-01T00:00:00+00:00",
+  "model_used": "gemini-2.0-flash (curated sample)",
+  "review_duration_seconds": 18.7,
+  "critical_findings": [
+    {
+      "file": "app/db.py",
+      "line": 42,
+      "severity": "critical",
+      "category": "security",
+      "title": "Possible SQL injection",
+      "description": "User-supplied `user_id` is concatenated directly into a SQL query string. An attacker can inject arbitrary SQL (e.g. `1 OR 1=1`) and read or modify other users' data.",
+      "suggestion": "Use a parameterized query instead of string concatenation.",
+      "fix_diff": "- cursor.execute(\"SELECT * FROM users WHERE id=\" + user_id)\n+ cursor.execute(\"SELECT * FROM users WHERE id=%s\", (user_id,))",
+      "confidence": "high"
+    }
+  ],
+  "total_findings": 4
+}
