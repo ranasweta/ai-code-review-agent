@@ -240,4 +240,4 @@ MIT — see [`LICENSE`](LICENSE).
 
 ---
 
-_Built with ❤️ by [Your Name]._
+_Built with ❤️ by Sweta Rana._
